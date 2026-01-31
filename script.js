@@ -49,7 +49,6 @@ function addImageClickEvents() {
 
 function openPopup(index) {
   currentIndex = index;
-
   localStorage.setItem("galleryIndex", currentIndex);
 
   popupImg.src = images[index];
