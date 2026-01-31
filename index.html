@@ -1,17 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Foto Gallery</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body onclick="renderGallery()">
+  <body>
+    <header>
+      <div class="header-text-logo">
+        <img src="" alt="" class="logo" />
+        <h1 class="header-text">Foto Gallery</h1>
+      </div>
+      <div class="search-wrapper">
+        <span>Search:</span>
+        <input type="text" placeholder="search imges" />
+        <span class="x">X</span>
+      </div>
+    </header>
+<div class="imgs-container" id="div-container"></div>
 
-<div id="div-container"></div>
+<!-- POPUP MUSS AUSSERHALB SEIN -->
+<div id="popup" class="hidden popup-container">
+  <div class="popup-content">
+    <span id="popup-close">&times;</span>
 
+    <button id="prev-btn" class="nav-btn prev">❮</button>
+    <img id="popup-img" src="" alt="">
+    <button id="next-btn" class="nav-btn next">❯</button>
     
-</body>
+    <div id="popup-info"></div>
+  </div>
+</div>
+
+
+    <footer>
+      <p class="p-footer">
+        Copyright © 2026 <span class="year"></span>&nbsp;Fotogram
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
 </html>

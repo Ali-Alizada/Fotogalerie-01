@@ -9,28 +9,99 @@ const images = [
   "imgs/16.jpg",
   "imgs/17.jpg",
   "imgs/18.jpg",
-  "imgs/19.jpg",
-  "imgs/2.jpg",
-  "imgs/20.jpg",
-  "imgs/3.jpg",
-  "imgs/4.jpg",
-  "imgs/5.jpg",
-  "imgs/6.jpg",
-  "imgs/7.jpg",
-  "imgs/8.jpg",
-  "imgs/9.jpg"
 ];
 
+const container = document.getElementById("div-container");
+const popup = document.getElementById("popup");
+const popupImg = document.getElementById("popup-img");
+const popupInfo = document.getElementById("popup-info");
 
-function render() {
-  const container = document.getElementById("div-container");
-  container.innerHTML = ""; // Container leeren
+let currentIndex = 0;
 
-  // Bilder direkt als HTML einsetzen
-  for (let i = 0; i < images.length; i++) {
-    container.innerHTML += `<img src="${images[i]}" alt="${images[i].split("/").pop()}">`;
+function renderGallery() {
+  container.innerHTML = "";
+
+  let html = "";
+  for (let index = 0; index < images.length; index++) {
+    html += `
+      <img 
+        src="${images[index]}" 
+        alt="${images[index].split("/").pop()}" 
+        data-index="${index}"
+      >
+    `;
+  }
+  container.innerHTML = html;
+
+  addImageClickEvents();
+}
+
+function addImageClickEvents() {
+  const imgs = document.querySelectorAll("#div-container img");
+
+  for (let i = 0; i < imgs.length; i++) {
+    imgs[i].addEventListener("click", (e) => {
+      const index = parseInt(e.target.dataset.index);
+      openPopup(index);
+    });
   }
 }
 
-// Bilder rendern
-render();
+function openPopup(index) {
+  currentIndex = index;
+
+  localStorage.setItem("galleryIndex", currentIndex);
+
+  popupImg.src = images[index];
+  popupInfo.innerHTML = `
+    <p>Bild ${index + 1} von ${images.length}</p>
+  `;
+  popup.classList.remove("hidden");
+}
+
+function prevImage() {
+  currentIndex--;
+
+  if (currentIndex < 0) {
+    currentIndex = images.length - 1; // Loop nach hinten
+  }
+
+  openPopup(currentIndex);
+}
+
+function nextImage() {
+  currentIndex++;
+
+  if (currentIndex >= images.length) {
+    currentIndex = 0; // Loop nach vorne
+  }
+
+  openPopup(currentIndex);
+}
+
+function closePopup() {
+  document.getElementById("popup").classList.add("hidden");
+}
+
+document.getElementById("popup-close").addEventListener("click", closePopup);
+document.getElementById("popup").addEventListener("click", (e) => {
+  if (e.target.id === "popup") closePopup();
+});
+
+document.getElementById("prev-btn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  prevImage();
+});
+
+document.getElementById("next-btn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  nextImage();
+});
+
+renderGallery();
+
+const savedIndex = localStorage.getItem("galleryIndex");
+
+if (savedIndex !== null && images[savedIndex]) {
+  currentIndex = Number(savedIndex);
+}
